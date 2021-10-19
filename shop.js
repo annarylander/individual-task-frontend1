@@ -1,6 +1,11 @@
+//Globala variablar
+let itemsArray = [];
+let totalPrice = 0;
+let itemsInCart = [];
 const container = document.getElementById("products");
 const url = "https://mock-data-api.firebaseio.com/webb21/products.json";
 
+// Hämtar data fran API:t
 function getItems() {
   fetch(url)
     .then((res) => res.json())
@@ -28,7 +33,7 @@ function renderItem(item) {
   description.innerText = item.description;
 
   const price = document.createElement("p");
-  price.innerText = `Pris: ${item.price} sek`;
+  price.innerText = `Price: ${item.price} sek`;
 
   const rating = document.createElement("p");
   rating.innerText = `Rating: ${item.rating}`;
@@ -65,23 +70,35 @@ function renderItem(item) {
   container.appendChild(wrapper);
 }
 
-// Globala variablar
-let itemsArray = [];
-let totalPrice = 0;
-let transactions = [];
-
 getItems();
 
 // Adderar priset pa valda produkter och sparar i array
 function addItemToCart(item) {
   totalPrice += item.price;
-  transactions.push(item);
-  return transactions;
+  itemsInCart.push(item);
+  return itemsInCart;
 }
 
 // Renderar totala priset
 function renderPrice() {
   document.getElementById("totalPrice").innerText = `Totalt: ${totalPrice} sek`;
+}
+
+// Renderar produkter i varukorgen
+function rendershoppingCart() {
+    itemsInCart.forEach(() => {
+    const shoppingCart = document.getElementById("shoppingCart");
+    shoppingCart.innerText = "";
+    let transaction = document.createElement("p");
+
+    itemsInCart.forEach((item) => {
+      let message = document.createElement("p");
+      message.innerText = `${item.name} - ${item.price} sek`;
+      transaction.appendChild(message);
+    });
+
+    shoppingCart.appendChild(transaction);
+  });
 }
 
 // Filtrerar bort produkter baserat på input
@@ -93,22 +110,5 @@ function filterItems() {
     } else {
       document.getElementById(item.name).style.display = "block";
     }
-  });
-}
-
-// Renderar produkter i varukorgen
-function rendershoppingCart() {
-  transactions.forEach(() => {
-    const shoppingCart = document.getElementById("shoppingCart");
-    shoppingCart.innerText = "";
-    let transaction = document.createElement("p");
-
-    transactions.forEach((item) => {
-      let message = document.createElement("p");
-      message.innerText = `${item.name} - ${item.price} sek`;
-      transaction.appendChild(message);
-    });
-
-    shoppingCart.appendChild(transaction);
   });
 }
