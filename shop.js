@@ -86,19 +86,17 @@ function renderPrice() {
 
 // Renderar produkter i varukorgen
 function rendershoppingCart() {
-    itemsInCart.forEach(() => {
-    const shoppingCart = document.getElementById("shoppingCart");
-    shoppingCart.innerText = "";
-    let transaction = document.createElement("p");
+  const shoppingCart = document.getElementById("shoppingCart");
+  shoppingCart.innerText = "";
+  let transaction = document.createElement("p");
 
-    itemsInCart.forEach((item) => {
-      let message = document.createElement("p");
-      message.innerText = `${item.name} - ${item.price} sek`;
-      transaction.appendChild(message);
-    });
-
-    shoppingCart.appendChild(transaction);
+  itemsInCart.forEach((item) => {
+    let message = document.createElement("p");
+    message.innerText = `${item.name} - ${item.price} sek`;
+    transaction.appendChild(message);
   });
+
+  shoppingCart.appendChild(transaction);
 }
 
 // Filtrerar bort produkter baserat på input
